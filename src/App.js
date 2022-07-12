@@ -1,23 +1,50 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import LoginScreen from './screens/login';
+import OrderScreen from './screens/orderForm';
+import AuthService from "../src/services/authService";
+import { Snackbar } from '@mui/material';
+import { SESSION_KEY } from '../src/utils/constants';
 
 function App() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [snackIsOpen, setSnackIsOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [userIsConnected, setUserIsConnected] = useState(null);
+  const authService = new AuthService();
+  
+  const handleLogin = async (userData) => {
+    setIsLoading(true);
+     authService.login(userData).then((response)=> {
+      if(response?.access_token){
+        setUserIsConnected(response);
+        sessionStorage.setItem(SESSION_KEY, response.access_token);
+      }
+      setIsLoading(false);
+     })
+     .catch((error)=>{
+      setErrorMessage(error);
+      setSnackIsOpen(true)
+     })
+  };
+
+  const handleCloseSnack = () => {
+    setSnackIsOpen(false);
+}
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {userIsConnected ? (
+        <OrderScreen />
+        ) : (
+          <LoginScreen isLoading={isLoading} onSubmit={handleLogin} />
+      )}
+      <Snackbar
+        open={snackIsOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseSnack}
+        message={errorMessage}
+      />
     </div>
   );
 }
