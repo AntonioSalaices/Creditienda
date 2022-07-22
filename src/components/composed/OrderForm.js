@@ -61,12 +61,12 @@ export const OrderForm = () => {
         setIsLoading(true);
         if(order && status){
             let data = {
-                folio:order,
+                numOrden:order,
                 estado: status, 
             };
             if(status === STATUS.CANCELADO){
                 data = {
-                    folio:order,
+                    numOrden:order,
                     estado: status, 
                     motivo: comment
                 };
