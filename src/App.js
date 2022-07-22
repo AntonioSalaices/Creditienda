@@ -10,14 +10,14 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [snackIsOpen, setSnackIsOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [userIsConnected, setUserIsConnected] = useState(null);
+  const [userIsConnected, setUserIsConnected] = useState(false);
   const authService = new AuthService();
   
   const handleLogin = async (userData) => {
     setIsLoading(true);
      authService.login(userData).then((response)=> {
       if(response?.access_token){
-        setUserIsConnected(response);
+        setUserIsConnected(true);
         sessionStorage.setItem(SESSION_KEY, response.access_token);
       }
       setIsLoading(false);
