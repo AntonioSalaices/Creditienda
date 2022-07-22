@@ -34,7 +34,8 @@ export const AuthForm = ({ isLoading, onSubmit }) => {
     const [snackIsOpen, setSnackIsOpen] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
         if(username && password){
             const data = {
                 username,

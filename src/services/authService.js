@@ -5,7 +5,11 @@ class AuthService {
         try {
             const response = await fetch(env.API_URL + env.AUTH_ENDPOINT, {
                 method: "POST",
-                body: JSON.stringify(userData)
+                body: JSON.stringify(userData),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Cookie': env.COOKIE
+                }
             });
             return await response.json();
         } catch (error) {
