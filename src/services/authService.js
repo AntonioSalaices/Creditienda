@@ -1,7 +1,7 @@
 import env from "react-dotenv";
 
 class AuthService {
-    login = async (userData) => {
+    login = async (userData) => { 
         try {
             const response = await fetch(env.API_URL + env.AUTH_ENDPOINT, {
                 method: "POST",
@@ -11,8 +11,8 @@ class AuthService {
                     'Cookie': env.COOKIE
                 }
             });
-            console.log('response', response.json())
-            return await response.json();
+            
+            return (await response.json());
         } catch (error) {
             console.error("error", error)
         }

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './App.css';
 import LoginScreen from './screens/login';
 import OrderScreen from './screens/orderForm';
 import AuthService from "../src/services/authService";

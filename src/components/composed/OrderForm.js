@@ -51,18 +51,17 @@ const styles = {
 
 export const OrderForm = () => {
     const [snackIsOpen, setSnackIsOpen] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState('');
     const [order, setOrder] = useState('');
     const [comment, setComment] = useState('');
     const [status, setStatus] = useState('');
     const orderService = new OrderService();
-    const handleSubmit = async () => {
-        setIsLoading(true);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         if(order && status){
             let data = {
                 numOrden:order,
-                estado: status, 
+                estado: status
             };
             if(status === STATUS.CANCELADO){
                 data = {
@@ -74,14 +73,18 @@ export const OrderForm = () => {
             
             orderService.saveOrder(data)
             .then((response)=> {
-                setIsLoading(false);
                 setSnackIsOpen(true)
-                setMessage(response.message);
+                setMessage(response);
+
+
+                //CLEAR INPUTS
+                setComment('');
+                setOrder('');
+                setStatus('')
             })
             .catch((error)=>{
                 setMessage(error);
                 setSnackIsOpen(true);
-                setIsLoading(false);
             });
         } else {
             setSnackIsOpen(true);

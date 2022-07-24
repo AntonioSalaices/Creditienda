@@ -14,7 +14,7 @@ class OrderService {
                     'Authorization': bearerToken
                 }
             });
-            return await response.json();
+            return (await response.text());
         } catch (error) {
             console.error("error", error)
         }
